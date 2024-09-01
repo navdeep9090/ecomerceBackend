@@ -1,16 +1,16 @@
 import twilio from 'twilio';
 
+
 const accountSid = process.env.TWILIO_ACCOUNT_SID 
 const authToken = process.env.TWILIO_AUTH_TOKEN;    
-
 const client = twilio(accountSid, authToken);
 
 export function sendSms(to, messageBody) {
-    // return client.messages.create({
-    //     body: 'Hello, this is a test message from Node.js using ES Modules!',
-    //     to: "+918941961473",  
-    //     from: '+13342032629' 
-    // });
+    return client.messages.create({
+        body: 'Hello, this is a test message from Node.js using ES Modules!',
+        to: "+918941961473",  
+        from: '+13342032629' 
+    });
 }
 
 const customerNumbers = [/* Your customer phone numbers */];
