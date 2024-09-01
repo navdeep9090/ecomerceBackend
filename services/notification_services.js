@@ -15,15 +15,15 @@ export function sendSms(to, messageBody) {
 
 const customerNumbers = [/* Your customer phone numbers */];
 
-customerNumbers.forEach(number => {
-    client.messages.create({
-        body: 'Your message content',
-        from: '+1234567890', // Replace with your Twilio phone number
-        to: number
-    })
-    .then(message => console.log(message.sid))
-    .catch(error => console.error(error));
-});
+// customerNumbers.forEach(number => {
+//     client.messages.create({
+//         body: 'Your message content',
+//         from: '+1234567890', // Replace with your Twilio phone number
+//         to: number
+//     })
+//     .then(message => console.log(message.sid))
+//     .catch(error => console.error(error));
+// });
 // client.messages.create({
 //     body: 'Hello, this is a test message from Node.js using ES Modules!',
 //     to: '+1234567890', 
