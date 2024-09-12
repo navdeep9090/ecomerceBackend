@@ -21,38 +21,44 @@
 //   return next();
 // };
 
-// export default validate;
 import Joi from 'joi';
 
- const validate = (schema) => (req, res, next) => {
-  const validSchema = ['params', 'query', 'body'].reduce((acc, key) => {
+// Validate middleware function
+const validate = (schema) => (req, res, next) => {
+  // Build validation object based on the schema provided
+  const validationObject = {
+    body: req.body,
+    query: req.query,
+    params: req.params,
+  };
+
+  // Filter out undefined schemas (i.e., if no body/query/params schema is provided)
+  const validSchema = Object.keys(schema).reduce((acc, key) => {
     if (schema[key]) {
       acc[key] = schema[key];
     }
     return acc;
   }, {});
 
-  // Validate only the relevant parts of req (e.g., req.body, req.query, req.params)
-  const validationObject = {};
-  if (validSchema.body) validationObject.body = req.body;
-  if (validSchema.query) validationObject.query = req.query;
-  if (validSchema.params) validationObject.params = req.params;
-
+  // Validate the request data
   const { value, error } = Joi.compile(validSchema)
     .prefs({ errors: { label: 'key' }, abortEarly: false })
     .validate(validationObject);
 
   if (error) {
+    // Map and join all error messages
     const errorMessage = error.details.map((detail) => detail.message).join(', ');
     return res.status(400).send({ message: errorMessage });
   }
 
-  // Assign validated values back to req object, but only the parts that were validated
-  if (value.body) req.body = value.body;
-  if (value.query) req.query = value.query;
-  if (value.params) req.params = value.params;
+  // Assign validated values back to req
+  req.body = value.body || req.body;
+  req.query = value.query || req.query;
+  req.params = value.params || req.params;
 
   return next();
 };
+
 export default validate;
+
 

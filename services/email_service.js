@@ -14,12 +14,12 @@ const mailGenerator = new Mailgen({
   theme: 'default',
   product: {
     name: 'Your Product Name',
-    link: 'http://localhost:3000/',
+    link: 'http://localhost:4000/',
   },
 });
 
 export const sendPasswordResetEmail = async (resetPasswordToken,user) => {
-  const resetUrl = `http://localhost:3000/reset-password?token=${resetPasswordToken}&id=${user._id}`;
+  const resetUrl = `http://localhost:4000/reset-password?token=${resetPasswordToken}&id=${user._id}`;
   const emailContent = {
     body: {
       name: user.name,

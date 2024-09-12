@@ -15,16 +15,13 @@ authRouter.post('/reset-password', validate(auth_validation.resetPassword), auth
 authRouter.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 authRouter.get('/google/callback',passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
-      // Successful authentication
-      console.log("ssfssssssssssssssssssssssssssssssssssssss",res)
-      const token = req.user.token;  // Assuming token is stored in the user object
-    res.redirect(`http://localhost:3000/dashboard?token=${token}`);
+      const token = req.user.token;  
+    res.redirect(`http://localhost:4000/dashboard?token=${token}`);
     });
     authRouter.get('/facebook',passport.authenticate('facebook'));
     authRouter.get('facebook/callback',
         passport.authenticate('facebook', { failureRedirect: '/' }),
         (req, res) => {
-          // Successful authentication, redirect home.
           res.redirect('/');
         });
 

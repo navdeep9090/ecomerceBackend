@@ -50,7 +50,6 @@ const resetPassword = async (req, res, next) => {
     await auth_services.resetPassword(req.query.token, req.body.password);
     res.status(httpStatus.OK).send({message: 'Password changed succesfully'});
   } catch (error) {
-    console.log("eeeeeeeeeeeeeeee",error)
     next(error);
   }
 };

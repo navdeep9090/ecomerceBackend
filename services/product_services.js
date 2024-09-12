@@ -1,7 +1,11 @@
 import Product from '../models/product.js';
 
-export const createProduct = async (productData) => {
-    const product = new Product(productData);
+export const createProduct = async (productData,imageFilenames) => {
+ productData.images=imageFilenames
+
+    const product = new Product({
+        ...productData
+    });
     return await product.save();
 };
 
@@ -13,8 +17,11 @@ export const getProductById = async (productId) => {
     return await Product.findById(productId);
 };
 
-export const updateProduct = async (productId, productData) => {
-    return await Product.findByIdAndUpdate(productId, productData, { new: true });
+export const updateProduct = async (productId, updatedData) => {
+    return await Product.findByIdAndUpdate(productId, updatedData, {
+        new: true, 
+        runValidators: true, 
+    });
 };
 
 export const deleteProduct = async (productId) => {

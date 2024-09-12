@@ -8,9 +8,11 @@ import {
 
 export const createProductHandler = async (req, res) => {
     try {
-        const product = await createProduct(req.body);
+        const imageFilenames = req.files.map(file => file.filename);
+        const product = await createProduct(req.body,imageFilenames);
         res.status(201).json(product);
     } catch (error) {
+        console.log("error create product",error)
         res.status(400).json({ message: error.message });
     }
 };
@@ -38,11 +40,20 @@ export const getProductByIdHandler = async (req, res) => {
 
 export const updateProductHandler = async (req, res) => {
     try {
-        const product = await updateProduct(req.params.id, req.body);
+        const productId = req?.params?.id; 
+        const imageFilenames = req.files ? req.files.map(file => file.filename) : [];
+        const updatedData = {
+            ...req.body,
+        };
+
+        if (imageFilenames.length > 0) {
+            updatedData.images = imageFilenames;
+        }
+        const product = await updateProduct(productId, updatedData);
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
-        res.status(200).json(product);
+        res.status(200).json({message:"Product updated successfully"},product);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
