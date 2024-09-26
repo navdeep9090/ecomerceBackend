@@ -28,6 +28,9 @@ export const uploadImages = (req, res, next) => {
     if (err) {
       return res.status(400).send({ error: err.message });
     }
+    if (req.files && req.files.length > 0) {
+      req.body.images = req.files.map(file => file.path); 
+    }
     next(); 
   });
 };

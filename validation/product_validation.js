@@ -1,9 +1,10 @@
 import Joi from "joi";
+import { objectId } from "./custom_validation.js";
 
 export const ProductValidation = {
-  body: Joi.object({
+  body: Joi.object().keys({
     name: Joi.string().trim().required().min(1).max(255),
-    description: Joi.string().trim().required().min(10),
+    description: Joi.string().trim().required(),
     price: Joi.number().required().min(0),
     category: Joi.string().trim().required(),
     // stock: Joi.number().min(0), // Uncomment if stock becomes required
@@ -22,7 +23,7 @@ export const ProductValidation = {
 };
 export const updateProductValidation = {
     params: Joi.object({
-      id: Joi.string().required(), 
+      id: Joi.string().required().custom(objectId), 
     }),
     body: Joi.object({
       name: Joi.string().trim().min(1).max(255).optional(),

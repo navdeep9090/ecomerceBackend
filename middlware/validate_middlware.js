@@ -1,64 +1,31 @@
-// import Joi from 'joi';
-
-// const validate = (schema) => (req, res, next) => {
-//   const validSchema = ['params', 'query', 'body'].reduce((acc, key) => {
-//     if (schema[key]) {
-//       acc[key] = schema[key];
-//     }
-//     return acc;
-//   }, {});
-
-//   const { value, error } = Joi.compile(validSchema)
-//     .prefs({ errors: { label: 'key' }, abortEarly: false })
-//     .validate(req);
-
-//   if (error) {
-//     const errorMessage = error.details.map((detail) => detail.message).join(', ');
-//     return res.status(400).send({ message: errorMessage });
-//   }
-
-//   Object.assign(req, value);
-//   return next();
-// };
-
 import Joi from 'joi';
 
-// Validate middleware function
-const validate = (schema) => (req, res, next) => {
-  // Build validation object based on the schema provided
-  const validationObject = {
-    body: req.body,
-    query: req.query,
-    params: req.params,
-  };
-
-  // Filter out undefined schemas (i.e., if no body/query/params schema is provided)
-  const validSchema = Object.keys(schema).reduce((acc, key) => {
-    if (schema[key]) {
-      acc[key] = schema[key];
+const pick = (object, keys) => {
+  return keys.reduce((obj, key) => {
+    if (object && Object.prototype.hasOwnProperty.call(object, key)) {
+      obj[key] = object[key];
     }
-    return acc;
+    return obj;
   }, {});
+};
 
-  // Validate the request data
+const validate = (schema) => (req, res, next) => {
+  const validSchema = pick(schema, ['body', 'params', 'query']);
+  const object = pick(req, Object.keys(validSchema));
   const { value, error } = Joi.compile(validSchema)
     .prefs({ errors: { label: 'key' }, abortEarly: false })
-    .validate(validationObject);
+    .validate(object);
 
   if (error) {
-    // Map and join all error messages
     const errorMessage = error.details.map((detail) => detail.message).join(', ');
     return res.status(400).send({ message: errorMessage });
   }
 
-  // Assign validated values back to req
   req.body = value.body || req.body;
-  req.query = value.query || req.query;
   req.params = value.params || req.params;
+  req.query = value.query || req.query;
 
   return next();
 };
 
 export default validate;
-
-

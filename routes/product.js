@@ -12,10 +12,10 @@ import { ProductValidation, updateProductValidation } from '../validation/produc
 
 const ProductRouter = express.Router();
 
-ProductRouter.post('/create', validate(ProductValidation),uploadImages, createProductHandler);
+ProductRouter.post('/create', uploadImages,validate(ProductValidation),createProductHandler);
 ProductRouter.get('/getallproduct', getAllProductsHandler);
 ProductRouter.get('/getproduct/:id', getProductByIdHandler);
-ProductRouter.put('/update/:id', validate(updateProductValidation),uploadImages, updateProductHandler);
+ProductRouter.put('/update/:id', uploadImages,validate(updateProductValidation), updateProductHandler);
 ProductRouter.delete('/delete/:id', deleteProductHandler);
 
 export default ProductRouter;
