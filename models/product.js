@@ -50,19 +50,16 @@ const productSchema = new mongoose.Schema({
     ],
     reviews: [
         {
-            user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
-            rating: { type: Number, min: 0, max: 5 }, 
-            comment: { type: String, trim: true },
-            createdAt: { type: Date, default: Date.now },
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Review',
         },
-    ],
-    comments: [
+      ],
+      likes: [
         {
-            user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-            comment: { type: String, trim: true },
-            createdAt: { type: Date, default: Date.now },
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'ProductLike', 
         },
-    ],
+      ],
     createdAt: {
         type: Date,
         default: Date.now,
@@ -70,12 +67,3 @@ const productSchema = new mongoose.Schema({
 });
 
 export default mongoose.model('Product', productSchema);
-
-//  offer 20%off
-// size  
-//type
-//review
-//comment
-
-
-//favrt  schema

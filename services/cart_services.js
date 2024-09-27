@@ -44,3 +44,30 @@ export const getCart = async (userId) => {
     throw new Error(error.message);
   }
 };
+
+export const removeProductFromCart = async (userId, productId) => {
+  try {
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      throw new Error('Cart not found');
+    }
+
+    const updatedItems = cart.items.filter(
+      (item) => item.productId.toString() !== productId
+    );
+
+    cart.items = updatedItems;
+
+    cart.totalAmount = updatedItems.reduce(
+      (total, item) => total + item.quantity * item.productPrice,
+      0
+    );
+
+    await cart.save();
+
+    return cart;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};

@@ -2,8 +2,8 @@
 
 import express from 'express';
 import validate from '../middlware/validate_middlware.js';
-import {  addToCartValidation, getCartValidation, removeFromCartValidation } from '../validation/cart_validation.js';
-import { addProductToCart, getUserCart } from '../controller/cart_controller.js';
+import {  addToCartValidation, deleteProductValidation, getCartValidation } from '../validation/cart_validation.js';
+import { addProductToCart, getUserCart,deleteProductFromCartController } from '../controller/cart_controller.js';
 
 
 const CartRouter = express.Router();
@@ -14,7 +14,7 @@ CartRouter.post('/add-to-cart/:userId',validate(addToCartValidation), addProduct
 // Route for getting the cart of a user with validation
 CartRouter.get('/:userId', validate(getCartValidation), getUserCart);
 
-CartRouter.get('/remove-from-cart/:userId',validate(removeFromCartValidation) );
+CartRouter.post('/remove-from-cart/:productId',validate(deleteProductValidation),deleteProductFromCartController );
 
 
 export default CartRouter;
