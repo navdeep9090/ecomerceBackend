@@ -44,3 +44,16 @@ export const updateProductValidation = {
     }).min(1), 
   };;
   
+  export const getProductByCategoryValidation = {params:Joi.object({
+    category: Joi.string().trim().required().messages({
+      'string.empty': 'Category is required',
+      'any.required': 'Category is required',
+    }),
+  })};
+
+  export const getProductRatingValidation = {params:Joi.object({
+    productId: Joi.string().trim().required().messages({
+      'string.empty': 'Product id is required',
+      'any.required': 'Product id is required',
+    }),
+  })};

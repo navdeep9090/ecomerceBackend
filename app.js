@@ -15,10 +15,11 @@ const __dirname = dirname(__filename);
 import { connectDB } from './config/dbConnect.js';
 import { sendSms } from './services/notification_services.js';
 import './config/passport.js';
-
+import cors from 'cors';
 
 var app = express();
 connectDB();
+app.use(cors())
 // sendSms()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

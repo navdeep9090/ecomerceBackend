@@ -57,6 +57,14 @@ const userSchema = new Schema({
     type: String,
     trim: true,
   },
+  alternatePhoneNumber: {
+    type: String,
+    trim: true,
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+  },
   addresses: {
     billing: addressSchema,
     shipping: addressSchema,

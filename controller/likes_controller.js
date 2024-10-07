@@ -5,8 +5,7 @@ import { addLikeToProduct, getLikesForProduct, removeLikeFromProduct } from "../
   export const addLikeHandler = async (req, res) => {
     try {
       const { productId } = req.params;
-      const { userId } = req.body; // Ensure userId is passed in the request body
-  
+      const { userId } = req.body;
       const productLike = await addLikeToProduct(productId, userId);
       return res.status(201).json({ message: 'Like added successfully', productLike });
     } catch (error) {

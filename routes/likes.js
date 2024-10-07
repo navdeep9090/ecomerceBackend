@@ -4,8 +4,8 @@ import { addLikeHandler, getLikesHandler, removeLikeHandler } from '../controlle
 
 const LikesRouter = express.Router();
 
-LikesRouter.post('/:productId/like', addLikeHandler); // Add like
-LikesRouter.delete('/:productId/like', removeLikeHandler); // Remove like
-LikesRouter.get('/:productId/likes', getLikesHandler); // Get all likes
+LikesRouter.post('/add/:productId',addLikeHandler); 
+LikesRouter.delete('/:productId/like', removeLikeHandler); 
+LikesRouter.get('/likes/:productId', getLikesHandler); 
 
 export default LikesRouter;
