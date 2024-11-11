@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 import Product from '../models/product.js';
 
-export const createProduct = async (productData,imageFilenames) => {
- productData.images=imageFilenames
+export const createProduct = async (productData) => {
     const product = new Product({
         ...productData
     });
@@ -18,6 +17,7 @@ export const getProductById = async (productId) => {
 };
 
 export const updateProduct = async (productId, updatedData) => {
+  
     return await Product.findByIdAndUpdate(productId, updatedData, {
         new: true, 
         runValidators: true, 
@@ -43,27 +43,7 @@ export const getProductsByCategory = async (category) => {
     }
   };
 
-  export const getAverageRatingForProduct = async (productId) => {
-    try {
-      const result = await Review.aggregate([
-        { $match: { productId: mongoose.Types.ObjectId(productId) } }, 
-        {
-          $group: {
-            _id: '$productId', 
-            averageRating: { $avg: '$rating' },
-          },
-        },
-      ]);
-  
-      if (result.length === 0) {
-        return { averageRating: 0 }; 
-      }
-  
-      return { averageRating: result[0].averageRating };
-    } catch (error) {
-      throw new Error('Error calculating average rating');
-    }
-  };
+
 
   export const getAllProductsForUser = async (userId) => {
     try {

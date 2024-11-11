@@ -8,3 +8,9 @@ export const createReviewValidation = {
     comment: Joi.string().optional().allow(''), // Optional review comment
   }),
 };
+export const getProductRatingValidation = {params:Joi.object({
+  productId: Joi.string().trim().required().messages({
+    'string.empty': 'Product id is required',
+    'any.required': 'Product id is required',
+  }),
+})};

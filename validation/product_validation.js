@@ -10,7 +10,7 @@ export const ProductValidation = {
     // stock: Joi.number().min(0), // Uncomment if stock becomes required
     images: Joi.array().items(Joi.string().required()).required(),
     type: Joi.string().trim().required(),
-    offer: Joi.string().trim().optional(),
+    offer:Joi.number().min(0).optional(),
     sizes: Joi.array()
       .items(
         Joi.object({
@@ -32,7 +32,7 @@ export const updateProductValidation = {
       category: Joi.string().trim().optional(),
       images: Joi.array().items(Joi.string()).optional(),
       type: Joi.string().trim().optional(),
-      offer: Joi.string().trim().optional(),
+      offer: Joi.number().min(0).optional(),
       sizes: Joi.array()
         .items(
           Joi.object({
@@ -51,9 +51,4 @@ export const updateProductValidation = {
     }),
   })};
 
-  export const getProductRatingValidation = {params:Joi.object({
-    productId: Joi.string().trim().required().messages({
-      'string.empty': 'Product id is required',
-      'any.required': 'Product id is required',
-    }),
-  })};
+ 

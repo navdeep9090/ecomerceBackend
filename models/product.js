@@ -38,9 +38,13 @@ const productSchema = new mongoose.Schema({
         required:true, 
         trim: true,
     },
-    offer: {
-        type: String, 
-        trim: true,
+    offer: { 
+        type: Number, 
+        default: 0 
+    },
+    priceAfterOffer: { 
+        type: Number, 
+        default: 0 
     },
     sizes: [
         {

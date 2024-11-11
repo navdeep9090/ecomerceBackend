@@ -5,14 +5,17 @@ import {
     updateProduct,
     deleteProduct,
     getProductsByCategory,
-    getAverageRatingForProduct,
     getAllProductsForUser,
 } from '../services/product_services.js';
 
 export const createProductHandler = async (req, res) => {
     try {
+        const productData=req.body
         const imageFilenames = req.files.map(file => file.filename);
-        const product = await createProduct(req.body,imageFilenames);
+        const priceAfterOffer = productData?.offer>0?productData?.price - (productData?.price * (productData?.offer / 100)):0;
+           productData.priceAfterOffer=priceAfterOffer
+          productData.images=imageFilenames
+        const product = await createProduct(productData);
         res.status(201).json(product);
     } catch (error) {
         console.log("error create product",error)
@@ -61,6 +64,8 @@ export const updateProductHandler = async (req, res) => {
         if (imageFilenames.length > 0) {
             updatedData.images = imageFilenames;
         }
+        const priceAfterOffer = updatedData?.offer>0?updatedData?.price - (updatedData?.price * (updatedData?.offer / 100)):0;
+        updatedData.priceAfterOffer=priceAfterOffer
         const product = await updateProduct(productId, updatedData);
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
@@ -95,14 +100,3 @@ export const getProductsByCategoryController = async (req, res) => {
     }
   };
 
-  export const getProductRatingController = async (req, res) => {
-    try {
-      const { productId } = req.params;
-  
-      const { averageRating } = await getAverageRatingForProduct(productId);
-  
-      res.status(200).json({ averageRating });
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
